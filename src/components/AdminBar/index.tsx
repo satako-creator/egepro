@@ -2,15 +2,14 @@
 
 import type { PayloadAdminBarProps, PayloadMeUser } from '@payloadcms/admin-bar'
 
-import { cn } from '@/utilities/ui'
+import { cn } from '@/shared/utilities/ui'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { PayloadAdminBar } from '@payloadcms/admin-bar'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import './index.scss'
-
-import { getClientSideURL } from '@/utilities/getURL'
+import { getClientSideURL } from '@/shared/utilities/getURL'
 
 const baseClass = 'admin-bar'
 
