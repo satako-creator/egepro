@@ -6,10 +6,10 @@ import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import { RenderBlocks } from '@/payload/blocks/RenderBlocks'
-import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { RenderHero } from '@/payload/heros/RenderHero'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })

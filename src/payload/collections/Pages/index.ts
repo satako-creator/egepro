@@ -7,7 +7,6 @@ import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
@@ -20,6 +19,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { generatePreviewPath } from '@/shared/utilities/generatePreviewPath'
 import { populatePublishedAt } from '@/payload/hooks/populatePublishedAt'
+import { hero } from '@/payload/heros/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
