@@ -73,6 +73,11 @@ export interface Config {
     categories: Category;
     users: User;
     topics: Topic;
+    lessons: Lesson;
+    'practice-questions': PracticeQuestion;
+    'multiplayer-events': MultiplayerEvent;
+    'multiplayer-results': MultiplayerResult;
+    boosts: Boost;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,6 +101,11 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     topics: TopicsSelect<false> | TopicsSelect<true>;
+    lessons: LessonsSelect<false> | LessonsSelect<true>;
+    'practice-questions': PracticeQuestionsSelect<false> | PracticeQuestionsSelect<true>;
+    'multiplayer-events': MultiplayerEventsSelect<false> | MultiplayerEventsSelect<true>;
+    'multiplayer-results': MultiplayerResultsSelect<false> | MultiplayerResultsSelect<true>;
+    boosts: BoostsSelect<false> | BoostsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -421,6 +431,25 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  avatar?: (number | null) | Media;
+  xp?: number | null;
+  level?: number | null;
+  streakDays?: number | null;
+  lastActivityDate?: string | null;
+  badges?:
+    | {
+        code: string;
+        earnedAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  totalTournaments?: number | null;
+  tournamentWins?: number | null;
+  totalBoosts?: number | null;
+  settings?: {
+    notifications?: boolean | null;
+    soundEnabled?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -793,6 +822,257 @@ export interface Topic {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lessons".
+ */
+export interface Lesson {
+  id: number;
+  title: string;
+  slug: string;
+  grade: '7' | '8' | '9' | '10' | '11';
+  topic: string;
+  order: number;
+  theory: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Показывается в списке уроков
+   */
+  summary?: string | null;
+  coverImage?: (number | null) | Media;
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  difficulty?: ('easy' | 'medium' | 'hard') | null;
+  estimatedTime?: number | null;
+  isEnabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-questions".
+ */
+export interface PracticeQuestion {
+  id: number;
+  lesson: number | Lesson;
+  type: 'single' | 'multiple' | 'numeric' | 'formula' | 'ordering';
+  question: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  questionPreview?: string | null;
+  options?:
+    | {
+        text: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        isCorrect?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Для чисел используйте формат: 42 или 3.14
+   */
+  correctNumericAnswer?: string | null;
+  steps?:
+    | {
+        text: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        order: number;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Показывается после ответа
+   */
+  explanation?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  hint?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  difficulty?: ('easy' | 'medium' | 'hard') | null;
+  order?: number | null;
+  points?: number | null;
+  /**
+   * 0 = без ограничения
+   */
+  timeLimit?: number | null;
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  isEnabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplayer-events".
+ */
+export interface MultiplayerEvent {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string | null;
+  scheduledTime: string;
+  durationSeconds?: number | null;
+  rounds: number;
+  questionsPerRound: number;
+  lessons: (number | Lesson)[];
+  difficulty?: ('any' | 'easy' | 'medium' | 'hard') | null;
+  status: 'scheduled' | 'active' | 'completed' | 'cancelled';
+  maxParticipants?: number | null;
+  minParticipants?: number | null;
+  /**
+   * Например: "Осень 2024"
+   */
+  season?: string | null;
+  coverImage?: (number | null) | Media;
+  isEnabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplayer-results".
+ */
+export interface MultiplayerResult {
+  id: number;
+  title?: string | null;
+  event: number | MultiplayerEvent;
+  user: number | User;
+  round: number;
+  position?: number | null;
+  score?: number | null;
+  timeSpentMs?: number | null;
+  correctAnswers?: number | null;
+  totalQuestions?: number | null;
+  accuracy?: number | null;
+  boostsEarned?: number | null;
+  boostsUsed?:
+    | {
+        boostCode: string;
+        roundUsed: number;
+        timestamp: string;
+        id?: string | null;
+      }[]
+    | null;
+  answers?:
+    | {
+        questionId: string;
+        answer?: string | null;
+        isCorrect?: boolean | null;
+        timeSpentMs?: number | null;
+        boostApplied?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  isCompleted?: boolean | null;
+  completedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boosts".
+ */
+export interface Boost {
+  id: number;
+  code: string;
+  name: string;
+  description: string;
+  effectType: 'penalty_reduction' | 'time_bonus' | 'score_multiplier' | 'hint';
+  /**
+   * Для %: 0.25 = 25%, для секунд: 5 = +5 сек
+   */
+  intensity: number;
+  icon?: (number | null) | Media;
+  color?: string | null;
+  isEnabled?: boolean | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1004,6 +1284,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'topics';
         value: number | Topic;
+      } | null)
+    | ({
+        relationTo: 'lessons';
+        value: number | Lesson;
+      } | null)
+    | ({
+        relationTo: 'practice-questions';
+        value: number | PracticeQuestion;
+      } | null)
+    | ({
+        relationTo: 'multiplayer-events';
+        value: number | MultiplayerEvent;
+      } | null)
+    | ({
+        relationTo: 'multiplayer-results';
+        value: number | MultiplayerResult;
+      } | null)
+    | ({
+        relationTo: 'boosts';
+        value: number | Boost;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1353,6 +1653,27 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  avatar?: T;
+  xp?: T;
+  level?: T;
+  streakDays?: T;
+  lastActivityDate?: T;
+  badges?:
+    | T
+    | {
+        code?: T;
+        earnedAt?: T;
+        id?: T;
+      };
+  totalTournaments?: T;
+  tournamentWins?: T;
+  totalBoosts?: T;
+  settings?:
+    | T
+    | {
+        notifications?: T;
+        soundEnabled?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1376,6 +1697,150 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface TopicsSelect<T extends boolean = true> {
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lessons_select".
+ */
+export interface LessonsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  grade?: T;
+  topic?: T;
+  order?: T;
+  theory?: T;
+  summary?: T;
+  coverImage?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  difficulty?: T;
+  estimatedTime?: T;
+  isEnabled?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-questions_select".
+ */
+export interface PracticeQuestionsSelect<T extends boolean = true> {
+  lesson?: T;
+  type?: T;
+  question?: T;
+  questionPreview?: T;
+  options?:
+    | T
+    | {
+        text?: T;
+        isCorrect?: T;
+        id?: T;
+      };
+  correctNumericAnswer?: T;
+  steps?:
+    | T
+    | {
+        text?: T;
+        order?: T;
+        id?: T;
+      };
+  explanation?: T;
+  hint?: T;
+  difficulty?: T;
+  order?: T;
+  points?: T;
+  timeLimit?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  isEnabled?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplayer-events_select".
+ */
+export interface MultiplayerEventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  scheduledTime?: T;
+  durationSeconds?: T;
+  rounds?: T;
+  questionsPerRound?: T;
+  lessons?: T;
+  difficulty?: T;
+  status?: T;
+  maxParticipants?: T;
+  minParticipants?: T;
+  season?: T;
+  coverImage?: T;
+  isEnabled?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "multiplayer-results_select".
+ */
+export interface MultiplayerResultsSelect<T extends boolean = true> {
+  title?: T;
+  event?: T;
+  user?: T;
+  round?: T;
+  position?: T;
+  score?: T;
+  timeSpentMs?: T;
+  correctAnswers?: T;
+  totalQuestions?: T;
+  accuracy?: T;
+  boostsEarned?: T;
+  boostsUsed?:
+    | T
+    | {
+        boostCode?: T;
+        roundUsed?: T;
+        timestamp?: T;
+        id?: T;
+      };
+  answers?:
+    | T
+    | {
+        questionId?: T;
+        answer?: T;
+        isCorrect?: T;
+        timeSpentMs?: T;
+        boostApplied?: T;
+        id?: T;
+      };
+  isCompleted?: T;
+  completedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boosts_select".
+ */
+export interface BoostsSelect<T extends boolean = true> {
+  code?: T;
+  name?: T;
+  description?: T;
+  effectType?: T;
+  intensity?: T;
+  icon?: T;
+  color?: T;
+  isEnabled?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }

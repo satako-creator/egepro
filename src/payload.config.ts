@@ -15,6 +15,13 @@ import { Topics } from './payload/collections/Topics'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/payload/fields/defaultLexical'
 import { getServerSideURL } from '@/shared/utilities/getURL'
+import {
+  Boosts,
+  Lessons,
+  MultiplayerEvents,
+  MultiplayerResults,
+  PracticeQuestions,
+} from './payload/collections'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -63,7 +70,19 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Topics],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Topics,
+    Lessons,
+    PracticeQuestions,
+    MultiplayerEvents,
+    MultiplayerResults,
+    Boosts,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,
