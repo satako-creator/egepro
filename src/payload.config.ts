@@ -9,7 +9,7 @@ import { Media } from './payload/collections/Media'
 import { Pages } from './payload/collections/Pages'
 import { Posts } from './payload/collections/Posts'
 import { Users } from './payload/collections/Users'
-import { Footer } from './payload/globals/Header/Footer/config'
+import { Footer } from './payload/globals/Footer/config'
 import { Header } from './payload/globals/Header/config'
 import { Topics } from './payload/collections/Topics'
 import { plugins } from './plugins'
@@ -24,10 +24,10 @@ export default buildConfig({
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
-      beforeLogin: ['@/components/BeforeLogin'],
+      beforeLogin: ['@/payload/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      beforeDashboard: ['@/payload/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),

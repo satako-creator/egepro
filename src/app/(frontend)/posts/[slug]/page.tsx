@@ -1,18 +1,18 @@
 import type { Metadata } from 'next'
 
 import { RelatedPosts } from '@/payload/blocks/RelatedPosts/Component'
-import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { PayloadRedirects } from '@/shared/ui/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import RichText from '@/components/RichText'
+import RichText from '@/shared/ui/RichText'
 
 import type { Post } from '@/payload-types'
 
 import { generateMeta } from '@/shared/utilities/generateMeta'
 import PageClient from './page.client'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { LivePreviewListener } from '@/payload/components/LivePreviewListener'
 import { PostHero } from '@/payload/heros/PostHero'
 
 export async function generateStaticParams() {
