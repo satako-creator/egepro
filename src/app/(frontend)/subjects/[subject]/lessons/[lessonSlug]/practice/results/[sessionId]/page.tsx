@@ -2,6 +2,9 @@ import { notFound } from 'next/navigation'
 import type { Subject } from '@/entities/subject/domain/types'
 import { getPracticeSessionById } from '@/entities/practice/api/getPracticeSessionById'
 import Link from 'next/link'
+import { getQuestionsForSession } from '@/entities/practice/api/getQuestionsForSession'
+import RichText from '@/shared/ui/RichText'
+import { extractPlainTextFromLexical } from '@/widgets/PracticePanel/_domain/richText'
 
 type PageProps = {
   params: Promise<{
@@ -24,6 +27,9 @@ export default async function PracticeResultsPage({ params }: PageProps) {
   if (!session) {
     notFound()
   }
+
+  const questions = await getQuestionsForSession(session)
+  const questionsMap = new Map(questions.map((q) => [q.id, q]))
 
   const totalScore = session.totalScore ?? 0
   const accuracy = session.accuracy ?? 0
@@ -70,28 +76,48 @@ export default async function PracticeResultsPage({ params }: PageProps) {
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Вопросы</h2>
           <div className="space-y-2">
-            {(session.completedQuestions ?? []).map((q, index) => (
-              <div
-                key={q.id ?? `${q.questionId}-${index}`}
-                className="flex items-center justify-between rounded-lg border bg-card px-4 py-3"
-              >
-                <div>
-                  <div className="text-sm font-medium">Вопрос {index + 1}</div>
-                  <div className="text-xs text-muted-foreground">
-                    Ваш ответ: {q.userAnswer ?? '—'}
-                  </div>
-                </div>
-                <span
-                  className={`text-xs px-2 py-1 rounded-full ${
-                    q.isCorrect
-                      ? 'bg-success/30 text-success-foreground'
-                      : 'bg-destructive/30 text-destructive-foreground'
-                  }`}
+            {(session.completedQuestions ?? []).map((q, index) => {
+              const question = questionsMap.get(q.questionId)
+
+              const questionPreview = question
+                ? extractPlainTextFromLexical(question.question).slice(0, 80)
+                : `Вопрос ${index + 1}`
+
+              return (
+                <details
+                  key={q.id ?? `${q.questionId}-${index}`}
+                  className="rounded-lg border bg-card px-4 py-3"
                 >
-                  {q.isCorrect ? 'Верно' : 'Ошибка'}
-                </span>
-              </div>
-            ))}
+                  <summary className="flex items-center justify-between cursor-pointer">
+                    <div>
+                      <div className="text-sm font-medium">Вопрос {index + 1}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">{questionPreview}</div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        Ваш ответ: {q.userAnswer ?? '—'}
+                      </div>
+                    </div>
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        q.isCorrect
+                          ? 'bg-success/30 text-success-foreground'
+                          : 'bg-destructive/30 text-destructive-foreground'
+                      }`}
+                    >
+                      {q.isCorrect ? 'Верно' : 'Ошибка'}
+                    </span>
+                  </summary>
+
+                  {question?.explanation && (
+                    <div className="mt-3 border-t pt-3">
+                      <div className="text-xs font-medium text-muted-foreground mb-1">
+                        Пояснение
+                      </div>
+                      <RichText data={question.explanation} />
+                    </div>
+                  )}
+                </details>
+              )
+            })}
           </div>
         </section>
 
