@@ -1,10 +1,11 @@
-import { CollectionConfig } from 'payload'
+import { slugField, type CollectionConfig } from 'payload'
+import { slugify as translit } from 'transliteration'
 
 export const Lessons: CollectionConfig = {
   slug: 'lessons',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'grade', 'topic', 'order'],
+    defaultColumns: ['title', 'subject', 'grade', 'topic', 'order'],
     listSearchableFields: ['title', 'topic'],
   },
   access: {
@@ -14,22 +15,46 @@ export const Lessons: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
+    // 1. Предмет (math / physics / ...)
+    {
+      name: 'subject',
+      type: 'select',
+      label: 'Предмет',
+      required: true,
+      defaultValue: 'math',
+      options: [
+        { label: 'Математика', value: 'math' },
+        { label: 'Физика', value: 'physics' },
+        // дальше можно добавлять или вынести в коллекцию и сделать связь
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+
     {
       name: 'title',
       type: 'text',
       required: true,
       label: 'Название урока',
     },
-    {
+
+    slugField({
       name: 'slug',
-      type: 'text',
+      fieldToUse: 'title',
+      useAsSlug: 'slug',
       required: true,
-      unique: true,
-      label: 'URL slug',
-      admin: {
-        position: 'sidebar',
+      position: 'sidebar',
+      slugify: ({ valueToSlugify }) => {
+        if (typeof valueToSlugify !== 'string') return undefined
+
+        return translit(valueToSlugify)
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w-]+/g, '')
       },
-    },
+    }),
+
     {
       name: 'grade',
       type: 'select',
@@ -46,31 +71,37 @@ export const Lessons: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
+    // 2. Тема как связь, а не строка
     {
       name: 'topic',
-      type: 'text',
+      type: 'relationship',
+      relationTo: 'topics',
       required: true,
-      label: 'Тема',
+      label: 'Тема / раздел',
       admin: {
         position: 'sidebar',
       },
     },
+
     {
       name: 'order',
       type: 'number',
       required: true,
       defaultValue: 0,
-      label: 'Порядок',
+      label: 'Порядок в списке',
       admin: {
         position: 'sidebar',
       },
     },
+
     {
       name: 'theory',
       type: 'richText',
       required: true,
       label: 'Теория',
     },
+
     {
       name: 'summary',
       type: 'textarea',
@@ -79,6 +110,7 @@ export const Lessons: CollectionConfig = {
         description: 'Показывается в списке уроков',
       },
     },
+
     {
       name: 'coverImage',
       type: 'upload',
@@ -88,6 +120,7 @@ export const Lessons: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'tags',
       type: 'array',
@@ -103,6 +136,7 @@ export const Lessons: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'difficulty',
       type: 'select',
@@ -117,6 +151,7 @@ export const Lessons: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'estimatedTime',
       type: 'number',
@@ -125,6 +160,7 @@ export const Lessons: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'isEnabled',
       type: 'checkbox',

@@ -78,6 +78,8 @@ export interface Config {
     'multiplayer-events': MultiplayerEvent;
     'multiplayer-results': MultiplayerResult;
     boosts: Boost;
+    'practice-sessions': PracticeSession;
+    'practice-results': PracticeResult;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -106,6 +108,8 @@ export interface Config {
     'multiplayer-events': MultiplayerEventsSelect<false> | MultiplayerEventsSelect<true>;
     'multiplayer-results': MultiplayerResultsSelect<false> | MultiplayerResultsSelect<true>;
     boosts: BoostsSelect<false> | BoostsSelect<true>;
+    'practice-sessions': PracticeSessionsSelect<false> | PracticeSessionsSelect<true>;
+    'practice-results': PracticeResultsSelect<false> | PracticeResultsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -817,6 +821,13 @@ export interface Form {
 export interface Topic {
   id: number;
   name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  subject: 'math' | 'physics';
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -826,10 +837,15 @@ export interface Topic {
  */
 export interface Lesson {
   id: number;
+  subject: 'math' | 'physics';
   title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
   slug: string;
   grade: '7' | '8' | '9' | '10' | '11';
-  topic: string;
+  topic: number | Topic;
   order: number;
   theory: {
     root: {
@@ -870,7 +886,7 @@ export interface Lesson {
 export interface PracticeQuestion {
   id: number;
   lesson: number | Lesson;
-  type: 'single' | 'multiple' | 'numeric' | 'formula' | 'ordering';
+  type: 'single' | 'multiple' | 'numeric' | 'formula';
   question: {
     root: {
       type: string;
@@ -989,6 +1005,7 @@ export interface PracticeQuestion {
  */
 export interface MultiplayerEvent {
   id: number;
+  subject: 'math' | 'physics';
   title: string;
   slug: string;
   description?: string | null;
@@ -1016,7 +1033,6 @@ export interface MultiplayerEvent {
  */
 export interface MultiplayerResult {
   id: number;
-  title?: string | null;
   event: number | MultiplayerEvent;
   user: number | User;
   round: number;
@@ -1037,7 +1053,7 @@ export interface MultiplayerResult {
     | null;
   answers?:
     | {
-        questionId: string;
+        questionId: number;
         answer?: string | null;
         isCorrect?: boolean | null;
         timeSpentMs?: number | null;
@@ -1068,6 +1084,57 @@ export interface Boost {
   color?: string | null;
   isEnabled?: boolean | null;
   order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-sessions".
+ */
+export interface PracticeSession {
+  id: number;
+  user: number | User;
+  lesson: number | Lesson;
+  completedQuestions?:
+    | {
+        questionId: number;
+        isCorrect: boolean;
+        points?: number | null;
+        userAnswer?: string | null;
+        timeSpent?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  totalScore?: number | null;
+  accuracy?: number | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  isCompleted?: boolean | null;
+  result?: (number | null) | PracticeResult;
+  timeSpentTotal?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-results".
+ */
+export interface PracticeResult {
+  id: number;
+  user: number | User;
+  lesson: number | Lesson;
+  session?: (number | null) | PracticeSession;
+  totalScore?: number | null;
+  accuracy?: number | null;
+  completedAt?: string | null;
+  timeSpent?: number | null;
+  recommendedTopics?:
+    | {
+        topic?: string | null;
+        priority?: ('high' | 'medium' | 'low') | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1304,6 +1371,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'boosts';
         value: number | Boost;
+      } | null)
+    | ({
+        relationTo: 'practice-sessions';
+        value: number | PracticeSession;
+      } | null)
+    | ({
+        relationTo: 'practice-results';
+        value: number | PracticeResult;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1697,6 +1772,10 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface TopicsSelect<T extends boolean = true> {
   name?: T;
+  generateSlug?: T;
+  slug?: T;
+  subject?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1705,7 +1784,9 @@ export interface TopicsSelect<T extends boolean = true> {
  * via the `definition` "lessons_select".
  */
 export interface LessonsSelect<T extends boolean = true> {
+  subject?: T;
   title?: T;
+  generateSlug?: T;
   slug?: T;
   grade?: T;
   topic?: T;
@@ -1770,6 +1851,7 @@ export interface PracticeQuestionsSelect<T extends boolean = true> {
  * via the `definition` "multiplayer-events_select".
  */
 export interface MultiplayerEventsSelect<T extends boolean = true> {
+  subject?: T;
   title?: T;
   slug?: T;
   description?: T;
@@ -1793,7 +1875,6 @@ export interface MultiplayerEventsSelect<T extends boolean = true> {
  * via the `definition` "multiplayer-results_select".
  */
 export interface MultiplayerResultsSelect<T extends boolean = true> {
-  title?: T;
   event?: T;
   user?: T;
   round?: T;
@@ -1841,6 +1922,55 @@ export interface BoostsSelect<T extends boolean = true> {
   color?: T;
   isEnabled?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-sessions_select".
+ */
+export interface PracticeSessionsSelect<T extends boolean = true> {
+  user?: T;
+  lesson?: T;
+  completedQuestions?:
+    | T
+    | {
+        questionId?: T;
+        isCorrect?: T;
+        points?: T;
+        userAnswer?: T;
+        timeSpent?: T;
+        id?: T;
+      };
+  totalScore?: T;
+  accuracy?: T;
+  startedAt?: T;
+  completedAt?: T;
+  isCompleted?: T;
+  result?: T;
+  timeSpentTotal?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "practice-results_select".
+ */
+export interface PracticeResultsSelect<T extends boolean = true> {
+  user?: T;
+  lesson?: T;
+  session?: T;
+  totalScore?: T;
+  accuracy?: T;
+  completedAt?: T;
+  timeSpent?: T;
+  recommendedTopics?:
+    | T
+    | {
+        topic?: T;
+        priority?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugify as translit } from 'transliteration'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -117,7 +118,21 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
-    slugField(),
+    slugField({
+      name: 'slug',
+      fieldToUse: 'title',
+      useAsSlug: 'slug',
+      required: true,
+      position: 'sidebar',
+      slugify: ({ valueToSlugify }) => {
+        if (typeof valueToSlugify !== 'string') return undefined
+
+        return translit(valueToSlugify)
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w-]+/g, '')
+      },
+    }),
   ],
   hooks: {
     afterChange: [revalidatePage],

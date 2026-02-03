@@ -1,10 +1,10 @@
-import { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload'
 
 export const MultiplayerEvents: CollectionConfig = {
   slug: 'multiplayer-events',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'scheduledTime', 'status', 'rounds'],
+    defaultColumns: ['title', 'subject', 'scheduledTime', 'status', 'rounds'],
     listSearchableFields: ['title'],
   },
   access: {
@@ -14,6 +14,22 @@ export const MultiplayerEvents: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
+    // 1. Предмет, чтобы фильтровать турниры по /math, /physics и т.п.
+    {
+      name: 'subject',
+      type: 'select',
+      label: 'Предмет',
+      required: true,
+      defaultValue: 'math',
+      options: [
+        { label: 'Математика', value: 'math' },
+        { label: 'Физика', value: 'physics' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+
     {
       name: 'title',
       type: 'text',
@@ -30,11 +46,13 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'description',
       type: 'textarea',
       label: 'Описание',
     },
+
     {
       name: 'scheduledTime',
       type: 'date',
@@ -47,15 +65,17 @@ export const MultiplayerEvents: CollectionConfig = {
         },
       },
     },
+
     {
       name: 'durationSeconds',
       type: 'number',
-      defaultValue: 600, // 10 минут
+      defaultValue: 600,
       label: 'Длительность турнира (сек)',
       admin: {
         position: 'sidebar',
       },
     },
+
     {
       name: 'rounds',
       type: 'number',
@@ -66,6 +86,7 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'questionsPerRound',
       type: 'number',
@@ -76,17 +97,19 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'lessons',
       type: 'relationship',
       relationTo: 'lessons',
       hasMany: true,
       required: true,
-      label: 'Темы для вопросов',
+      label: 'Уроки / темы для вопросов',
       admin: {
         position: 'sidebar',
       },
     },
+
     {
       name: 'difficulty',
       type: 'select',
@@ -102,6 +125,7 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'status',
       type: 'select',
@@ -118,6 +142,7 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'maxParticipants',
       type: 'number',
@@ -135,6 +160,7 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'season',
       type: 'text',
@@ -144,6 +170,7 @@ export const MultiplayerEvents: CollectionConfig = {
         description: 'Например: "Осень 2024"',
       },
     },
+
     {
       name: 'coverImage',
       type: 'upload',
@@ -153,6 +180,7 @@ export const MultiplayerEvents: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'isEnabled',
       type: 'checkbox',

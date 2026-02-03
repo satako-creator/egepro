@@ -1,4 +1,5 @@
-import { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload'
+import { generateQuestionPreview } from './hooks/generateQuestionPreview'
 
 export const PracticeQuestions: CollectionConfig = {
   slug: 'practice-questions',
@@ -12,6 +13,9 @@ export const PracticeQuestions: CollectionConfig = {
     create: ({ req: { user } }) => !!user,
     update: ({ req: { user } }) => !!user,
     delete: ({ req: { user } }) => !!user,
+  },
+  hooks: {
+    beforeValidate: [generateQuestionPreview],
   },
   fields: [
     {
@@ -34,7 +38,7 @@ export const PracticeQuestions: CollectionConfig = {
         { label: 'Несколько ответов', value: 'multiple' },
         { label: 'Числовой ответ', value: 'numeric' },
         { label: 'Формула', value: 'formula' },
-        { label: 'Упорядочить шаги', value: 'ordering' },
+        // { label: 'Упорядочить шаги', value: 'ordering' },
       ],
       label: 'Тип вопроса',
       admin: {
@@ -50,11 +54,12 @@ export const PracticeQuestions: CollectionConfig = {
     {
       name: 'questionPreview',
       type: 'text',
+      label: 'Краткий текст вопроса',
       admin: {
         hidden: true,
       },
     },
-    // Опции для выбора (один/несколько ответов)
+
     {
       name: 'options',
       type: 'array',
@@ -77,7 +82,7 @@ export const PracticeQuestions: CollectionConfig = {
         condition: (_, { type }) => type === 'single' || type === 'multiple',
       },
     },
-    // Числовой ответ
+
     {
       name: 'correctNumericAnswer',
       type: 'text',
@@ -87,7 +92,7 @@ export const PracticeQuestions: CollectionConfig = {
         description: 'Для чисел используйте формат: 42 или 3.14',
       },
     },
-    // Упорядочивание шагов
+
     {
       name: 'steps',
       type: 'array',
@@ -110,6 +115,7 @@ export const PracticeQuestions: CollectionConfig = {
         condition: (_, { type }) => type === 'ordering',
       },
     },
+
     {
       name: 'explanation',
       type: 'richText',
@@ -118,11 +124,13 @@ export const PracticeQuestions: CollectionConfig = {
         description: 'Показывается после ответа',
       },
     },
+
     {
       name: 'hint',
       type: 'richText',
       label: 'Подсказка',
     },
+
     {
       name: 'difficulty',
       type: 'select',
@@ -137,6 +145,7 @@ export const PracticeQuestions: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'order',
       type: 'number',
@@ -146,6 +155,7 @@ export const PracticeQuestions: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'points',
       type: 'number',
@@ -155,6 +165,7 @@ export const PracticeQuestions: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'timeLimit',
       type: 'number',
@@ -164,6 +175,7 @@ export const PracticeQuestions: CollectionConfig = {
         description: '0 = без ограничения',
       },
     },
+
     {
       name: 'tags',
       type: 'array',
@@ -179,6 +191,7 @@ export const PracticeQuestions: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'isEnabled',
       type: 'checkbox',

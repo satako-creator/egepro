@@ -15,13 +15,13 @@ import { Topics } from './payload/collections/Topics'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/payload/fields/defaultLexical'
 import { getServerSideURL } from '@/shared/utilities/getURL'
-import {
-  Boosts,
-  Lessons,
-  MultiplayerEvents,
-  MultiplayerResults,
-  PracticeQuestions,
-} from './payload/collections'
+import { PracticeResults } from './payload/collections/PracticeResults'
+import { Boosts } from './payload/collections/Boosts'
+import { Lessons } from './payload/collections/Lessons'
+import { MultiplayerEvents } from './payload/collections/MultiplayerEvents'
+import { MultiplayerResults } from './payload/collections/MultiplayerResults'
+import { PracticeQuestions } from './payload/collections/PracticeQuestions'
+import { PracticeSessions } from './payload/collections/PracticeSessions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -82,6 +82,8 @@ export default buildConfig({
     MultiplayerEvents,
     MultiplayerResults,
     Boosts,
+    PracticeSessions,
+    PracticeResults,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],

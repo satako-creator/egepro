@@ -1,26 +1,30 @@
-import { CollectionConfig } from 'payload'
+import type { CollectionConfig, CollectionBeforeChangeHook } from 'payload'
+
+const computeAccuracy: CollectionBeforeChangeHook = ({ data }) => {
+  if (
+    typeof data.correctAnswers === 'number' &&
+    typeof data.totalQuestions === 'number' &&
+    data.totalQuestions > 0
+  ) {
+    data.accuracy = Math.round((data.correctAnswers / data.totalQuestions) * 100)
+  }
+  return data
+}
 
 export const MultiplayerResults: CollectionConfig = {
   slug: 'multiplayer-results',
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: 'id',
     defaultColumns: ['event', 'user', 'round', 'position', 'score'],
     listSearchableFields: [],
   },
   access: {
     read: () => true,
-    create: () => true,
+    create: () => true, // создаёшь из бекенда для каждого раунда
     update: ({ req: { user } }) => !!user,
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
     {
       name: 'event',
       type: 'relationship',
@@ -50,6 +54,7 @@ export const MultiplayerResults: CollectionConfig = {
         position: 'sidebar',
       },
     },
+
     {
       name: 'position',
       type: 'number',
@@ -90,6 +95,7 @@ export const MultiplayerResults: CollectionConfig = {
         readOnly: true,
       },
     },
+
     {
       name: 'boostsEarned',
       type: 'number',
@@ -121,6 +127,7 @@ export const MultiplayerResults: CollectionConfig = {
         },
       ],
     },
+
     {
       name: 'answers',
       type: 'array',
@@ -128,7 +135,7 @@ export const MultiplayerResults: CollectionConfig = {
       fields: [
         {
           name: 'questionId',
-          type: 'text',
+          type: 'number', // ID PracticeQuestion
           required: true,
           label: 'ID вопроса',
         },
@@ -155,6 +162,7 @@ export const MultiplayerResults: CollectionConfig = {
         },
       ],
     },
+
     {
       name: 'isCompleted',
       type: 'checkbox',
@@ -168,17 +176,6 @@ export const MultiplayerResults: CollectionConfig = {
     },
   ],
   hooks: {
-    beforeChange: [
-      ({ data }) => {
-        // Автоматически считаем точность
-        if (data.correctAnswers !== undefined && data.totalQuestions > 0) {
-          return {
-            ...data,
-            accuracy: Math.round((data.correctAnswers / data.totalQuestions) * 100),
-          }
-        }
-        return data
-      },
-    ],
+    beforeChange: [computeAccuracy],
   },
 }

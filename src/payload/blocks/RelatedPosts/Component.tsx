@@ -4,8 +4,8 @@ import RichText from '@/shared/ui/RichText'
 
 import type { Post } from '@/payload-types'
 
-import { Card } from '../../../shared/ui/Card'
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
+import { Card } from '@/shared/ui/Card/index'
 
 export type RelatedPostsProps = {
   className?: string
