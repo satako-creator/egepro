@@ -5,7 +5,7 @@ import { authenticated } from '../../access/authenticated'
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: authenticated,
+    admin: ({ req: { user } }) => user?.role === 'admin',
     create: authenticated,
     delete: authenticated,
     read: authenticated,
@@ -20,6 +20,20 @@ export const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
+    },
+    {
+      name: 'role',
+      type: 'select',
+      required: true,
+      defaultValue: 'student',
+      options: [
+        { label: 'Студент', value: 'student' },
+        { label: 'Админ', value: 'admin' },
+      ],
+      access: {
+        // Только админ редактирует роли
+        update: ({ req: { user } }) => user?.role === 'admin',
+      },
     },
     {
       name: 'avatar',

@@ -435,6 +435,7 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  role: 'student' | 'admin';
   avatar?: (number | null) | Media;
   xp?: number | null;
   level?: number | null;
@@ -1728,6 +1729,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   avatar?: T;
   xp?: T;
   level?: T;
