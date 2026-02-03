@@ -40,6 +40,9 @@ export const QuestionCard = ({
 
   const diff = getDifficultyBadge(question.difficulty)
 
+  const disableNext =
+    !isCurrentQuestionAnswered || (isLastQuestion && isCurrentQuestionAnswered && isCompleting)
+
   return (
     <div className="bg-card rounded-lg p-6">
       <div className="mb-6">
@@ -49,6 +52,8 @@ export const QuestionCard = ({
             {diff.label === 'Легко' ? 'Легко' : diff.label === 'medium' ? 'Средне' : 'Сложно'}
           </span>
         </div>
+
+        <p className="text-xs text-muted-foreground mb-4">{getQuestionTypeLabel(question)}</p>
 
         <div className="mb-6">
           <RichText data={question.question} />
@@ -113,11 +118,8 @@ export const QuestionCard = ({
 
           <button
             onClick={isLastQuestion && isCurrentQuestionAnswered ? onComplete : onNext}
-            disabled={
-              (isLastQuestion && !isCurrentQuestionAnswered) ||
-              (isLastQuestion && isCurrentQuestionAnswered && isCompleting)
-            }
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={disableNext}
+            className={`${!disableNext ? '' : 'text-muted-foreground cursor-not-allowed'}`}
           >
             {isLastQuestion && isCurrentQuestionAnswered
               ? isCompleting
@@ -146,4 +148,12 @@ const isAnswered = (question: PracticeQuestion, selectedAnswers: string[]): bool
   }
 
   return false
+}
+
+const getQuestionTypeLabel = (question: PracticeQuestion) => {
+  if (question.type === 'single') return 'Один правильный ответ'
+  if (question.type === 'multiple') return 'Несколько правильных ответов'
+  if (question.type === 'numeric') return 'Ответ — число'
+  if (question.type === 'formula') return 'Ответ — формула'
+  return ''
 }

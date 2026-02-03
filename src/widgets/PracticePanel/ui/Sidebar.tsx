@@ -1,7 +1,7 @@
 // src/widgets/PracticePanel/ui/Sidebar.tsx
 import { PracticeQuestion } from '@/payload-types'
 import { extractPlainTextFromLexical } from '../_domain/richText'
-// import { ProgressBar } from './ProgressBar'
+import { Progress } from '@/shared/ui/progress'
 // import { truncateRichText } from '@/shared/lib/rich-text-utils'
 
 interface Option {
@@ -29,7 +29,7 @@ export const PracticeSidebar = ({
     <div className="bg-card rounded-lg p-4 h-full sticky top-4">
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-2">Прогресс</h3>
-        {/* <ProgressBar value={progress} className="h-2" /> */}
+        <Progress value={progress} className="h-2" />
         <span className="text-sm text-muted-foreground mt-1 block">
           {Math.round(progress)}% завершено
         </span>
