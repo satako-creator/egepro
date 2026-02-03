@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { getQuestionsForSession } from '@/entities/practice/api/getQuestionsForSession'
 import RichText from '@/shared/ui/RichText'
 import { extractPlainTextFromLexical } from '@/widgets/PracticePanel/_domain/richText'
+import { applyPracticeRewards } from '@/entities/practice/api/applyPracticeRewards'
 
 type PageProps = {
   params: Promise<{
@@ -27,6 +28,8 @@ export default async function PracticeResultsPage({ params }: PageProps) {
   if (!session) {
     notFound()
   }
+
+  const rewards = await applyPracticeRewards(sessionId)
 
   const questions = await getQuestionsForSession(session)
   const questionsMap = new Map(questions.map((q) => [q.id, q]))
@@ -72,6 +75,28 @@ export default async function PracticeResultsPage({ params }: PageProps) {
             )}
           </div>
         </section>
+
+        {rewards && (
+          <section className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-lg border bg-card p-4">
+              <div className="text-xs text-muted-foreground">Получено XP</div>
+              <div className="text-2xl font-bold">+{rewards.xpGain}</div>
+            </div>
+            <div className="rounded-lg border bg-card p-4">
+              <div className="text-xs text-muted-foreground">Уровень</div>
+              <div className="text-2xl font-bold">
+                {rewards.levelBefore} → {rewards.levelAfter}
+              </div>
+            </div>
+            <div className="rounded-lg border bg-card p-4">
+              <div className="text-xs text-muted-foreground">Дневная серия</div>
+              <div className="text-2xl font-bold">{rewards.streakAfter}</div>
+              <div className="text-xs text-muted-foreground mt-1">
+                Проходи практику каждый день, чтобы не потерять серию.
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Вопросы</h2>
