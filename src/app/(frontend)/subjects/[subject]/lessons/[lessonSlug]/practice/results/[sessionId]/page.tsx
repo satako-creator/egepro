@@ -7,6 +7,9 @@ import RichText from '@/shared/ui/RichText'
 import { extractPlainTextFromLexical } from '@/widgets/PracticePanel/_domain/richText'
 import { applyPracticeRewards } from '@/entities/practice/api/applyPracticeRewards'
 
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+
 type PageProps = {
   params: Promise<{
     subject: Subject
@@ -17,6 +20,8 @@ type PageProps = {
 
 export default async function PracticeResultsPage({ params }: PageProps) {
   const { subject, lessonSlug, sessionId } = await params
+
+  const payload = await getPayload({ config: configPromise })
 
   let session
   try {
@@ -31,6 +36,55 @@ export default async function PracticeResultsPage({ params }: PageProps) {
 
   const rewards = await applyPracticeRewards(sessionId)
 
+  let resultId: number | string
+  let result = await payload.find({
+    collection: 'practice-results',
+    where: { session: { equals: sessionId } },
+    limit: 1,
+  })
+
+  if (result.totalDocs > 0) {
+    const updated = await payload.update({
+      collection: 'practice-results',
+      id: result.docs[0].id,
+      data: {
+        totalScore: session.totalScore,
+        accuracy: session.accuracy,
+        completedAt: session.completedAt,
+        timeSpent: session.timeSpentTotal,
+        xpBefore: rewards?.xpBefore,
+        xpAfter: rewards?.xpAfter,
+        levelAfter: rewards?.levelAfter,
+      },
+    })
+    resultId = updated.id
+  } else {
+    const created = await payload.create({
+      collection: 'practice-results',
+      data: {
+        user: session.user,
+        lesson: session.lesson,
+        session: session.id,
+        totalScore: session.totalScore,
+        accuracy: session.accuracy,
+        completedAt: session.completedAt,
+        timeSpent: session.timeSpentTotal,
+        xpBefore: rewards?.xpBefore,
+        xpAfter: rewards?.xpAfter,
+        levelAfter: rewards?.levelAfter,
+      },
+    })
+    resultId = created.id
+  }
+
+  await payload.update({
+    collection: 'practice-sessions',
+    id: sessionId,
+    data: {
+      result: resultId,
+    },
+  })
+
   const questions = await getQuestionsForSession(session)
   const questionsMap = new Map(questions.map((q) => [q.id, q]))
 
@@ -40,7 +94,6 @@ export default async function PracticeResultsPage({ params }: PageProps) {
     typeof session.timeSpentTotal === 'number' ? Math.round(session.timeSpentTotal / 1000) : null
 
   const answered = session.completedQuestions?.length ?? 0
-  console.log('session.completedQuestions ==> ', session.completedQuestions)
 
   const lessonTitle =
     typeof session.lesson === 'object' && session.lesson ? session.lesson.title : lessonSlug

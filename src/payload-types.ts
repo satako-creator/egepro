@@ -1129,6 +1129,9 @@ export interface PracticeResult {
   accuracy?: number | null;
   completedAt?: string | null;
   timeSpent?: number | null;
+  xpBefore?: number | null;
+  xpAfter?: number | null;
+  levelAfter?: number | null;
   recommendedTopics?:
     | {
         topic?: string | null;
@@ -1966,6 +1969,9 @@ export interface PracticeResultsSelect<T extends boolean = true> {
   accuracy?: T;
   completedAt?: T;
   timeSpent?: T;
+  xpBefore?: T;
+  xpAfter?: T;
+  levelAfter?: T;
   recommendedTopics?:
     | T
     | {

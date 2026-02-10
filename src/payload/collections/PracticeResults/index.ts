@@ -61,6 +61,22 @@ export const PracticeResults: CollectionConfig = {
     },
 
     {
+      name: 'xpBefore',
+      type: 'number',
+      label: 'XP до сессии',
+    },
+    {
+      name: 'xpAfter',
+      type: 'number',
+      label: 'XP после сессии',
+    },
+    {
+      name: 'levelAfter',
+      type: 'number',
+      label: 'Уровень после сессии',
+    },
+
+    {
       name: 'recommendedTopics',
       label: 'Рекомендуемые темы для повторения',
       type: 'array',
