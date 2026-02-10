@@ -1,5 +1,21 @@
 import type { CollectionConfig } from 'payload'
 import { generateQuestionPreview } from './hooks/generateQuestionPreview'
+import {
+  AlignFeature,
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  IndentFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+  LinkFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+} from '@payloadcms/richtext-lexical'
+import { EquationBlock } from '@/payload/blocks/Equation/config'
+import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
+import { Code } from 'lucide-react'
 
 export const PracticeQuestions: CollectionConfig = {
   slug: 'practice-questions',
@@ -119,6 +135,23 @@ export const PracticeQuestions: CollectionConfig = {
     {
       name: 'explanation',
       type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [EquationBlock, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+            AlignFeature(),
+            UnorderedListFeature(),
+            OrderedListFeature(),
+            LinkFeature(),
+            IndentFeature(),
+          ]
+        },
+      }),
       label: 'Пояснение / Разбор',
       admin: {
         description: 'Показывается после ответа',
@@ -128,6 +161,23 @@ export const PracticeQuestions: CollectionConfig = {
     {
       name: 'hint',
       type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [EquationBlock, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+            AlignFeature(),
+            UnorderedListFeature(),
+            OrderedListFeature(),
+            LinkFeature(),
+            IndentFeature(),
+          ]
+        },
+      }),
       label: 'Подсказка',
     },
 

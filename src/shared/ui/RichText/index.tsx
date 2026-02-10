@@ -12,19 +12,28 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 
 import { CodeBlock, CodeBlockProps } from '@/payload/blocks/Code/Component'
+import { EquationBlock } from '@/payload/blocks/Equation/Component'
+import { BannerBlock } from '@/payload/blocks/Banner/Component'
+import { CallToActionBlock } from '@/payload/blocks/CallToAction/Component'
 
 import type {
   BannerBlock as BannerBlockProps,
   CallToActionBlock as CTABlockProps,
   MediaBlock as MediaBlockProps,
+  EquationBlock as EquationBlockProps,
 } from '@/payload-types'
-import { BannerBlock } from '@/payload/blocks/Banner/Component'
-import { CallToActionBlock } from '@/payload/blocks/CallToAction/Component'
+
 import { cn } from '@/shared/utilities/ui'
 
 type NodeTypes =
   | DefaultNodeTypes
-  | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps>
+  | SerializedBlockNode<
+      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps | EquationBlockProps
+    >
+
+// type NodeTypes =
+//   | DefaultNodeTypes
+//   | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps>
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
@@ -52,6 +61,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    equationBlock: ({ node }) => <EquationBlock {...node.fields} />,
   },
 })
 

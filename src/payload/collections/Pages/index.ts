@@ -8,6 +8,7 @@ import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { EquationBlock } from '@/payload/blocks/Equation/config'
 import { slugField } from 'payload'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
@@ -73,7 +74,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, EquationBlock],
               required: true,
               admin: {
                 initCollapsed: true,
