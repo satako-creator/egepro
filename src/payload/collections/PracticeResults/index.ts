@@ -5,6 +5,11 @@ export const PracticeResults: CollectionConfig = {
   admin: {
     useAsTitle: 'id',
     defaultColumns: ['user', 'lesson', 'totalScore', 'accuracy', 'completedAt'],
+    group: 'Практика',
+  },
+  labels: {
+    singular: 'Результат теста',
+    plural: 'Результаты теста',
   },
   access: {
     read: ({ req: { user } }) => !!user,

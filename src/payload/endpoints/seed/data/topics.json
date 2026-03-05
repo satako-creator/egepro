@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Алгебра",
+    "slug": "algebra",
+    "subjectSlug": "math",
+    "order": 1
+  },
+  {
+    "name": "Геометрия",
+    "slug": "geometry",
+    "subjectSlug": "math",
+    "order": 2
+  },
+  {
+    "name": "Тригонометрия",
+    "slug": "trigonometry",
+    "subjectSlug": "math",
+    "order": 3
+  },
+  {
+    "name": "Логарифмы",
+    "slug": "logarithms",
+    "subjectSlug": "math",
+    "order": 4
+  },
+  {
+    "name": "Орфография",
+    "slug": "orthography",
+    "subjectSlug": "russian",
+    "order": 1
+  }
+]

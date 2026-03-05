@@ -1,0 +1,29 @@
+[
+  {
+    "lesson": 1,
+    "type": "single",
+    "questionPreview": "Решите уравнение x² - 5x + 6 = 0",
+    "question": {},
+    "options": [
+      {
+        "text": {},
+        "isCorrect": true
+      },
+      {
+        "text": {},
+        "isCorrect": false
+      }
+    ],
+    "explanation": {},
+    "difficulty": "easy",
+    "points": 1,
+    "timeLimit": 60
+  },
+  {
+    "lesson": 1,
+    "type": "numeric",
+    "questionPreview": "Дискриминант уравнения x² + 2x + 1 = 0",
+    "correctNumericAnswer": "0",
+    "difficulty": "easy"
+  }
+]

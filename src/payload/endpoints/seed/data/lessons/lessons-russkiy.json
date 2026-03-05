@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Правописание НЕ с прилагательными",
+    "slug": "orthography-ne-with-adjectives",
+    "subjectSlug": "russian",
+    "topicSlug": "orthography",
+    "grade": "9",
+    "order": 1,
+    "summary": "Слитное и раздельное написание НЕ с прилагательными.",
+    "tags": ["русский язык", "орфография"],
+    "difficulty": "easy",
+    "estimatedTime": 20,
+    "isEnabled": true
+  }
+]

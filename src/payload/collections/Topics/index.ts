@@ -20,8 +20,6 @@ export const Topics: CollectionConfig<'topics'> = {
       required: true,
       label: 'Тема',
     },
-
-    // slug для удобного использования в URL/фильтрах (если понадобится)
     slugField({
       name: 'slug',
       fieldToUse: 'name',
@@ -48,23 +46,6 @@ export const Topics: CollectionConfig<'topics'> = {
         position: 'sidebar',
       },
     },
-
-    // {
-    //   name: 'subject',
-    //   type: 'select',
-    //   label: 'Предмет',
-    //   required: true,
-    //   defaultValue: 'math',
-    //   options: [
-    //     { label: 'Математика', value: 'math' },
-    //     { label: 'Физика', value: 'physics' },
-    //     // можно добавлять дальше
-    //   ],
-    //   admin: {
-    //     position: 'sidebar',
-    //   },
-    // },
-
     {
       name: 'order',
       type: 'number',
