@@ -22,6 +22,7 @@ import { MultiplayerEvents } from './payload/collections/MultiplayerEvents'
 import { MultiplayerResults } from './payload/collections/MultiplayerResults'
 import { PracticeQuestions } from './payload/collections/PracticeQuestions'
 import { PracticeSessions } from './payload/collections/PracticeSessions'
+import { Subjects } from './payload/collections/Subjects'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -84,6 +85,7 @@ export default buildConfig({
     Boosts,
     PracticeSessions,
     PracticeResults,
+    Subjects,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],

@@ -1,5 +1,5 @@
-import type { CollectionConfig } from 'payload'
-import { generateQuestionPreview } from './hooks/generateQuestionPreview'
+import { EquationBlock } from '@/payload/blocks/Equation/config'
+import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
 import {
   AlignFeature,
   BlocksFeature,
@@ -13,9 +13,8 @@ import {
   OrderedListFeature,
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
-import { EquationBlock } from '@/payload/blocks/Equation/config'
-import { MediaBlock } from '@/payload/blocks/MediaBlock/config'
-import { Code } from 'lucide-react'
+import type { CollectionConfig } from 'payload'
+import { generateQuestionPreview } from './hooks/generateQuestionPreview'
 
 export const PracticeQuestions: CollectionConfig = {
   slug: 'practice-questions',
@@ -23,6 +22,11 @@ export const PracticeQuestions: CollectionConfig = {
     useAsTitle: 'questionPreview',
     defaultColumns: ['lesson', 'type', 'difficulty', 'order'],
     listSearchableFields: ['question'],
+    group: 'Практика',
+  },
+  labels: {
+    singular: 'Вопросы к практике',
+    plural: 'Вопросы к практике',
   },
   access: {
     read: () => true,

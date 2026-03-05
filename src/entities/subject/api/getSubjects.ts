@@ -4,14 +4,13 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Subject } from '@/payload-types'
 
-export async function getSubjectLessons(subject: Subject) {
+export async function getSubjects(): Promise<Subject | null> {
   const payload = await getPayload({ config: configPromise })
 
   const res = await payload.find({
-    collection: 'lessons',
-    where: { subject: { equals: subject.id } },
-    sort: 'order',
-    depth: 1,
+    collection: 'subjects',
+    depth: 2,
   })
-  return res.docs
+
+  return res.docs[0] ?? null
 }

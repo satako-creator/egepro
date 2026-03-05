@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation'
-import type { Subject } from '@/entities/subject/domain/types'
 import { getPracticeSessionById } from '@/entities/practice/api/getPracticeSessionById'
 import Link from 'next/link'
 import { getQuestionsForSession } from '@/entities/practice/api/getQuestionsForSession'
@@ -9,6 +8,7 @@ import { applyPracticeRewards } from '@/entities/practice/api/applyPracticeRewar
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import { Subject } from '@/payload-types'
 
 type PageProps = {
   params: Promise<{
@@ -37,7 +37,7 @@ export default async function PracticeResultsPage({ params }: PageProps) {
   const rewards = await applyPracticeRewards(sessionId)
 
   let resultId: number | string
-  let result = await payload.find({
+  const result = await payload.find({
     collection: 'practice-results',
     where: { session: { equals: sessionId } },
     limit: 1,
@@ -102,9 +102,7 @@ export default async function PracticeResultsPage({ params }: PageProps) {
     <div className="min-h-screen bg-muted/30">
       <div className="container py-8 space-y-6">
         <header className="space-y-2">
-          <p className="text-xs text-muted-foreground uppercase tracking-wide">
-            {subject === 'math' ? 'Математика' : 'Физика'}
-          </p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">{subject.name}</p>
           <h1 className="text-2xl font-bold">Результаты практики</h1>
           <p className="text-sm text-muted-foreground">
             Урок: <span className="font-medium">{lessonTitle}</span>

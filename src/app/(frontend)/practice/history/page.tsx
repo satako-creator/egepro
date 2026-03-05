@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getUserPracticeSessions } from '@/entities/practice/api/getUserPracticeSessions'
 import { getMeUser } from '@/shared/utilities/getMeUser'
-import { Subject } from '@/entities/subject/domain/types'
+import { Subject } from '@/payload-types'
 
 type PageProps = {
   params: Promise<{}> // на всякий случай под новый Next-паттерн
@@ -69,7 +69,7 @@ export default async function PracticeHistoryPage({ params }: PageProps) {
                       </td>
                       <td className="px-4 py-2">
                         <span className="text-xs uppercase text-muted-foreground">
-                          {subject === 'math' ? 'Математика' : 'Физика'}
+                          {subject.name}
                         </span>
                       </td>
                       <td className="px-4 py-2">

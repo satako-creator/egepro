@@ -7,14 +7,13 @@ import React from 'react'
 
 import { AdminBar } from '@/payload/components/AdminBar'
 import { Footer } from '@/payload/globals/Footer/Component'
-import { Header } from '@/payload/globals/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/shared/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
-import './globals.css'
 import { getServerSideURL } from '@/shared/utilities/getURL'
+import './globals.css'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -33,9 +32,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               preview: isEnabled,
             }}
           />
-
-          <Header />
-          {children}
+          {/* <Header /> */}
+          <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
         </Providers>
       </body>

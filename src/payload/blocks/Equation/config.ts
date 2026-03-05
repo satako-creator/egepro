@@ -1,5 +1,4 @@
 import type { Block } from 'payload'
-import { EquationPreview } from './EquationPreview'
 
 export const EquationBlock: Block = {
   slug: 'equationBlock',

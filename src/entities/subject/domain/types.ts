@@ -1,5 +1,3 @@
-export type Subject = 'math' | 'physics'
-
 export interface TopicSummary {
   id: number
   name: string

@@ -80,6 +80,7 @@ export interface Config {
     boosts: Boost;
     'practice-sessions': PracticeSession;
     'practice-results': PracticeResult;
+    subjects: Subject;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -110,6 +111,7 @@ export interface Config {
     boosts: BoostsSelect<false> | BoostsSelect<true>;
     'practice-sessions': PracticeSessionsSelect<false> | PracticeSessionsSelect<true>;
     'practice-results': PracticeResultsSelect<false> | PracticeResultsSelect<true>;
+    subjects: SubjectsSelect<false> | SubjectsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -838,8 +840,23 @@ export interface Topic {
    */
   generateSlug?: boolean | null;
   slug: string;
-  subject: 'math' | 'physics';
+  subject: number | Subject;
   order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subjects".
+ */
+export interface Subject {
+  id: number;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -849,7 +866,7 @@ export interface Topic {
  */
 export interface Lesson {
   id: number;
-  subject: 'math' | 'physics';
+  subject: number | Subject;
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -1017,7 +1034,7 @@ export interface PracticeQuestion {
  */
 export interface MultiplayerEvent {
   id: number;
-  subject: 'math' | 'physics';
+  subject: number | Subject;
   title: string;
   slug: string;
   description?: string | null;
@@ -1394,6 +1411,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'practice-results';
         value: number | PracticeResult;
+      } | null)
+    | ({
+        relationTo: 'subjects';
+        value: number | Subject;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2001,6 +2022,17 @@ export interface PracticeResultsSelect<T extends boolean = true> {
         priority?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subjects_select".
+ */
+export interface SubjectsSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

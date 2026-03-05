@@ -1,16 +1,21 @@
-// src/app/(frontend)/subjects/[subject]/lessons/[lessonSlug]/practice/page.tsx
-import { notFound } from 'next/navigation'
-import type { Subject } from '@/entities/subject/domain/types'
 import { getLessonWithQuestions } from '@/entities/lesson/api/getLessonWithQuestions'
+import { getSubjectBySlug } from '@/entities/subject/api/getSubjectBySlug'
 import { PracticePanel } from '@/widgets/PracticePanel'
+import { notFound } from 'next/navigation'
 // пока работаем без auth → userId захардкожим или уберём
 
 type PageProps = {
-  params: Promise<{ subject: Subject; lessonSlug: string }>
+  params: Promise<{ subject: string; lessonSlug: string }>
 }
 
 export default async function PracticePage({ params }: PageProps) {
-  const { subject, lessonSlug } = await params
+  const { subject: subjectSlug, lessonSlug } = await params
+
+  const subject = await getSubjectBySlug(subjectSlug)
+
+  if (!subject) {
+    notFound()
+  }
 
   const data = await getLessonWithQuestions(subject, lessonSlug)
   if (!data) notFound()

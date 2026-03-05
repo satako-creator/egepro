@@ -14,17 +14,26 @@ export const MultiplayerEvents: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
-    // 1. Предмет, чтобы фильтровать турниры по /math, /physics и т.п.
+    // // 1. Предмет, чтобы фильтровать турниры по /math, /physics и т.п.
+    // {
+    //   name: 'subject',
+    //   type: 'select',
+    //   label: 'Предмет',
+    //   required: true,
+    //   defaultValue: 'math',
+    //   options: [
+    //     { label: 'Математика', value: 'math' },
+    //     { label: 'Физика', value: 'physics' },
+    //   ],
+    //   admin: {
+    //     position: 'sidebar',
+    //   },
+    // },
     {
       name: 'subject',
-      type: 'select',
-      label: 'Предмет',
+      type: 'relationship',
+      relationTo: 'subjects',
       required: true,
-      defaultValue: 'math',
-      options: [
-        { label: 'Математика', value: 'math' },
-        { label: 'Физика', value: 'physics' },
-      ],
       admin: {
         position: 'sidebar',
       },

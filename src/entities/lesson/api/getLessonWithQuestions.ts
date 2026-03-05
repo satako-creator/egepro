@@ -1,10 +1,8 @@
-// src/entities/lesson/api/getLessonWithQuestions.ts
 'use server'
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import type { Subject } from '@/entities/subject/domain/types'
-import type { Lesson, PracticeQuestion } from '@/payload-types'
+import type { Lesson, PracticeQuestion, Subject } from '@/payload-types'
 
 export async function getLessonWithQuestions(
   subject: Subject,
@@ -15,7 +13,7 @@ export async function getLessonWithQuestions(
   const lessonRes = await payload.find({
     collection: 'lessons',
     where: {
-      and: [{ subject: { equals: subject } }, { slug: { equals: slug } }],
+      and: [{ subject: { equals: subject.id } }, { slug: { equals: slug } }],
     },
     limit: 1,
     depth: 0,

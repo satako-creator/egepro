@@ -1,3 +1,16 @@
+import { EquationBlock } from '@/payload/blocks/Equation/config'
+import {
+  lexicalEditor,
+  HeadingFeature,
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  AlignFeature,
+  LinkFeature,
+  BlocksFeature,
+  IndentFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+} from '@payloadcms/richtext-lexical'
 import { slugField, type CollectionConfig } from 'payload'
 import { slugify as translit } from 'transliteration'
 
@@ -7,6 +20,11 @@ export const Lessons: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'subject', 'grade', 'topic', 'order'],
     listSearchableFields: ['title', 'topic'],
+    group: 'Теория',
+  },
+  labels: {
+    singular: 'Урок',
+    plural: 'Уроки',
   },
   access: {
     read: () => true,
@@ -15,18 +33,12 @@ export const Lessons: CollectionConfig = {
     delete: ({ req: { user } }) => !!user,
   },
   fields: [
-    // 1. Предмет (math / physics / ...)
     {
       name: 'subject',
-      type: 'select',
-      label: 'Предмет',
+      type: 'relationship',
+      relationTo: 'subjects',
       required: true,
-      defaultValue: 'math',
-      options: [
-        { label: 'Математика', value: 'math' },
-        { label: 'Физика', value: 'physics' },
-        // дальше можно добавлять или вынести в коллекцию и сделать связь
-      ],
+      label: 'Предмет',
       admin: {
         position: 'sidebar',
       },
@@ -100,6 +112,22 @@ export const Lessons: CollectionConfig = {
       type: 'richText',
       required: true,
       label: 'Теория',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [EquationBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            AlignFeature(),
+            UnorderedListFeature(),
+            OrderedListFeature(),
+            LinkFeature(),
+            IndentFeature(),
+          ]
+        },
+      }),
     },
 
     {

@@ -1,14 +1,21 @@
+import { getSubjectBySlug } from '@/entities/subject/api/getSubjectBySlug'
 import { getSubjectLessons } from '@/entities/subject/api/getSubjectLessons'
 import { getSubjectTopics } from '@/entities/subject/api/getSubjectTopics'
-import { Subject } from '@/entities/subject/domain/types'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 type PageProps = {
-  params: Promise<{ subject: Subject }>
+  params: Promise<{ subject: string }>
 }
 
 export default async function SubjectDashboardPage({ params: paramsPromise }: PageProps) {
-  const { subject } = await paramsPromise
+  const { subject: subjectSlug } = await paramsPromise
+
+  const subject = await getSubjectBySlug(subjectSlug)
+
+  if (!subject) {
+    notFound()
+  }
 
   const [topics, lessons] = await Promise.all([
     getSubjectTopics(subject),
@@ -18,7 +25,7 @@ export default async function SubjectDashboardPage({ params: paramsPromise }: Pa
   return (
     <div className="py-8">
       <header className="container">
-        <h1 className="text-2xl font-bold">{subject === 'math' ? 'Математика' : 'Физика'}</h1>
+        <h1 className="text-2xl font-bold">{subject.name}</h1>
         <p className="text-sm text-muted-foreground">
           Выбери раздел и переходи к урокам и тренировкам.
         </p>
@@ -38,7 +45,10 @@ export default async function SubjectDashboardPage({ params: paramsPromise }: Pa
       <section className="container">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg font-semibold">Уроки</h2>
-          <Link href={`/subjects/${subject}/lessons`} className="text-sm text-primary underline">
+          <Link
+            href={`/subjects/${subject.slug}/lessons`}
+            className="text-sm text-primary underline"
+          >
             Все уроки
           </Link>
         </div>
@@ -47,7 +57,7 @@ export default async function SubjectDashboardPage({ params: paramsPromise }: Pa
           {lessons.map((lesson: any) => (
             <Link
               key={lesson.id}
-              href={`/subjects/${subject}/lessons/${lesson.slug}`}
+              href={`/subjects/${subject.slug}/lessons/${lesson.slug}`}
               className="flex items-center justify-between rounded-lg border px-4 py-3 hover:bg-muted"
             >
               <div>

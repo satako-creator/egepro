@@ -1,8 +1,8 @@
 'use server'
 
-import { getPayload } from 'payload'
+import type { User } from '@/payload-types'
 import configPromise from '@payload-config'
-import type { PracticeSession, User } from '@/payload-types'
+import { getPayload } from 'payload'
 
 type ApplyRewardsResult = {
   xpGain: number

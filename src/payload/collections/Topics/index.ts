@@ -7,13 +7,18 @@ export const Topics: CollectionConfig<'topics'> = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'subject', 'order'],
+    group: 'Теория',
+  },
+  labels: {
+    singular: 'Тема',
+    plural: 'Темы',
   },
   fields: [
     {
       name: 'name',
       type: 'text',
       required: true,
-      label: 'Название раздела',
+      label: 'Тема',
     },
 
     // slug для удобного использования в URL/фильтрах (если понадобится)
@@ -35,19 +40,30 @@ export const Topics: CollectionConfig<'topics'> = {
 
     {
       name: 'subject',
-      type: 'select',
-      label: 'Предмет',
+      type: 'relationship',
+      relationTo: 'subjects',
       required: true,
-      defaultValue: 'math',
-      options: [
-        { label: 'Математика', value: 'math' },
-        { label: 'Физика', value: 'physics' },
-        // можно добавлять дальше
-      ],
+      label: 'Предмет',
       admin: {
         position: 'sidebar',
       },
     },
+
+    // {
+    //   name: 'subject',
+    //   type: 'select',
+    //   label: 'Предмет',
+    //   required: true,
+    //   defaultValue: 'math',
+    //   options: [
+    //     { label: 'Математика', value: 'math' },
+    //     { label: 'Физика', value: 'physics' },
+    //     // можно добавлять дальше
+    //   ],
+    //   admin: {
+    //     position: 'sidebar',
+    //   },
+    // },
 
     {
       name: 'order',
