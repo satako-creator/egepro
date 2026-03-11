@@ -35,9 +35,9 @@ export default async function LessonPage({ params }: PageProps) {
           </p>
         </header>
 
-        {/* Теория — отрисовка richText (у тебя наверняка уже есть компонент) */}
+        {/* Теория — richText с включённой prose */}
         <section>
-          <RichText data={lesson.theory} enableProse={false} className="px-0" />
+          <RichText data={lesson.theory} enableProse className="max-w-3xl mx-auto" />
         </section>
 
         <section>
