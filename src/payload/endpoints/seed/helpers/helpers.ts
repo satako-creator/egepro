@@ -18,7 +18,7 @@ interface LexicalNode {
 /**
  * Тип, описывающий структуру объекта, который ожидает Payload для поля richText.
  */
-type LexicalRichText = {
+export type LexicalRichText = {
   root: {
     type: 'root'
     direction: ('ltr' | 'rtl') | null

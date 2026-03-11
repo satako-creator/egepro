@@ -1,39 +1,13 @@
 [
   {
-    "title": "Формулы сокращенного умножения",
-    "slug": "algebra-short-multiplication",
+    "title": "Показательная функция и её свойства",
+    "slug": "exponential-function-basics",
     "subjectSlug": "math",
     "topicSlug": "algebra",
     "grade": "10",
-    "order": 1,
-    "summary": "Основные формулы сокращенного умножения и примеры их использования.",
-    "tags": ["ЕГЭ", "алгебра", "формулы"],
-    "difficulty": "easy",
-    "estimatedTime": 20,
-    "isEnabled": true
-  },
-  {
-    "title": "Квадратные уравнения и дискриминант",
-    "slug": "quadratic-equations-discriminant",
-    "subjectSlug": "math",
-    "topicSlug": "algebra",
-    "grade": "10",
-    "order": 2,
-    "summary": "Решение квадратных уравнений по формуле дискриминанта.",
-    "tags": ["ЕГЭ", "квадратные уравнения"],
-    "difficulty": "medium",
-    "estimatedTime": 25,
-    "isEnabled": true
-  },
-  {
-    "title": "Основные тригонометрические тождества",
-    "slug": "basic-trigonometric-identities",
-    "subjectSlug": "math",
-    "topicSlug": "trigonometry",
-    "grade": "10",
-    "order": 3,
-    "summary": "Синус, косинус и основное тригонометрическое тождество.",
-    "tags": ["тригонометрия"],
+    "order": 5,
+    "summary": "Определение показательной функции, свойства степеней, график, решения показательных уравнений и неравенств.",
+    "tags": ["ЕГЭ", "показательная функция", "степени"],
     "difficulty": "medium",
     "estimatedTime": 30,
     "isEnabled": true
@@ -44,11 +18,11 @@
     "subjectSlug": "math",
     "topicSlug": "logarithms",
     "grade": "11",
-    "order": 4,
-    "summary": "Определение логарифма и базовые свойства.",
-    "tags": ["логарифмы"],
+    "order": 6,
+    "summary": "Определение логарифма, свойства, переход к новому основанию и схема решения логарифмических уравнений и неравенств.",
+    "tags": ["логарифмы", "ЕГЭ"],
     "difficulty": "medium",
-    "estimatedTime": 25,
+    "estimatedTime": 30,
     "isEnabled": true
   }
 ]

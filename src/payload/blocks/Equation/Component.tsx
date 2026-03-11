@@ -13,9 +13,9 @@ export const EquationBlock: React.FC<Props> = ({ className, formula, caption }) 
 
   return (
     <div
-      className={[className, 'not-prose flex flex-col items-center my-4'].filter(Boolean).join(' ')}
+      className={[className, 'not-prose flex flex-col items-center my-8'].filter(Boolean).join(' ')}
     >
-      <div className="overflow-x-auto w-full text-center bg-card rounded-lg px-2 py-1">
+      <div className="overflow-x-auto min-w-xs text-center bg-card rounded-lg px-1 py-1">
         <BlockMath math={formula} />
       </div>
       {caption && <span className="mt-1 text-sm text-muted-foreground italic">{caption}</span>}

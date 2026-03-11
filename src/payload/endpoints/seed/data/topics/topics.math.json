@@ -10,17 +10,5 @@
     "slug": "geometry",
     "subjectSlug": "math",
     "order": 2
-  },
-  {
-    "name": "Тригонометрия",
-    "slug": "trigonometry",
-    "subjectSlug": "math",
-    "order": 3
-  },
-  {
-    "name": "Логарифмы",
-    "slug": "logarithms",
-    "subjectSlug": "math",
-    "order": 4
   }
 ]

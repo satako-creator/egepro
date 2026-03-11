@@ -1,12 +1,6 @@
 import type { Payload } from 'payload'
 import lessonsData from '../../data/lessons/lessons-math.json'
-import {
-  createHeading,
-  createParagraph,
-  createList,
-  createRichText,
-  createEquationBlockNode,
-} from '../../helpers/helpers'
+import { getLessonTheory } from '../../theory'
 
 type LessonSeedItem = {
   title: string
@@ -52,7 +46,7 @@ export const seedLessonsMath = async (payload: Payload): Promise<void> => {
       continue
     }
 
-    const theory = buildTheory(rawLesson)
+    const theory = getLessonTheory(rawLesson.slug)
 
     const data = {
       title: rawLesson.title,
@@ -92,51 +86,4 @@ export const seedLessonsMath = async (payload: Payload): Promise<void> => {
   }
 
   console.log('✅ Lessons (math + russian) seeding done')
-}
-
-const buildTheory = (lesson: LessonSeedItem) => {
-  switch (lesson.slug) {
-    case 'algebra-short-multiplication':
-      return createRichText([
-        createHeading('h2', 'Формулы сокращенного умножения'),
-        createParagraph('Это базовые формулы, которые позволяют быстро преобразовывать выражения.'),
-        createEquationBlockNode('(a + b)^2 = a^2 + 2ab + b^2', 'Квадрат суммы'),
-        createEquationBlockNode('(a - b)^2 = a^2 - 2ab + b^2', 'Квадрат разности'),
-        createEquationBlockNode('a^2 - b^2 = (a - b)(a + b)', 'Разность квадратов'),
-      ])
-
-    case 'quadratic-equations-discriminant':
-      return createRichText([
-        createHeading('h2', 'Квадратные уравнения'),
-        createParagraph('Общее квадратное уравнение имеет вид ax^2 + bx + c = 0, a ≠ 0.'),
-        createEquationBlockNode('D = b^2 - 4ac', 'Дискриминант квадратного уравнения'),
-        createEquationBlockNode(
-          'x_{1,2} = \\frac{-b \\pm \\sqrt{D}}{2a}',
-          'Формула корней квадратного уравнения',
-        ),
-      ])
-
-    case 'basic-trigonometric-identities':
-      return createRichText([
-        createHeading('h2', 'Основные тригонометрические тождества'),
-        createEquationBlockNode(
-          '\\sin^2 x + \\cos^2 x = 1',
-          'Основное тригонометрическое тождество',
-        ),
-        createEquationBlockNode('\\tan x = \\frac{\\sin x}{\\cos x}', 'Определение тангенса'),
-      ])
-
-    case 'logarithms-definition-properties':
-      return createRichText([
-        createHeading('h2', 'Логарифмы'),
-        createEquationBlockNode('\\log_a b = c \\iff a^c = b', 'Определение логарифма'),
-        createEquationBlockNode('\\log_a (xy) = \\log_a x + \\log_a y', 'Логарифм произведения'),
-      ])
-
-    default:
-      return createRichText([
-        createHeading('h2', lesson.title),
-        createParagraph('Теория для этого урока будет добавлена позже.'),
-      ])
-  }
 }
