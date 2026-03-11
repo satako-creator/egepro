@@ -68,6 +68,23 @@ export const PracticeQuestions: CollectionConfig = {
     {
       name: 'question',
       type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [EquationBlock, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+            AlignFeature(),
+            UnorderedListFeature(),
+            OrderedListFeature(),
+            LinkFeature(),
+            IndentFeature(),
+          ]
+        },
+      }),
       required: true,
       label: 'Вопрос',
     },

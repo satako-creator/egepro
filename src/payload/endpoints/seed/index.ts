@@ -1,7 +1,8 @@
-import type { Payload, PayloadRequest } from 'payload'
+import type { BasePayload, Payload, PayloadRequest } from 'payload'
 import { seedLessonsMath } from './collections/math/seedLessonsMath'
 import { seedSubjects } from './collections/seedSubjects'
 import { seedTopics } from './collections/seedTopics'
+import { seedPracticeQuestions } from './collections/math/seedPracticeQuestions'
 
 export const seed = async ({
   payload,
@@ -16,7 +17,7 @@ export const seed = async ({
     await seedSubjects(payload)
     await seedTopics(payload)
     await seedLessonsMath(payload)
-    // await seedPracticeQuestions(payload);
+    await seedPracticeQuestions(payload)
 
     console.log('🎉 Seed completed successfully!')
   } catch (error) {
