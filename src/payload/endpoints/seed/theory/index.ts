@@ -1,6 +1,7 @@
 import type { LexicalRichText } from '../helpers/helpers'
 import { exponentialFunctionTheory } from './math/exponentialFunctionTheory'
 import { logarithmsTheory } from './math/logarithmsTheory'
+import { nthRootBasicsTheory } from './math/nthRootBasicsTheory'
 import { powerGeneralizationTheory } from './math/powerGeneralizationTheory'
 
 type LessonKey = string
@@ -9,6 +10,7 @@ const MATH_THEORY: Record<LessonKey, () => LexicalRichText> = {
   'exponential-function-basics': exponentialFunctionTheory,
   'logarithms-definition-properties': logarithmsTheory,
   'power-generalization': powerGeneralizationTheory,
+  'nth-root-basics': nthRootBasicsTheory,
 }
 
 export const getLessonTheory = (slug: string): LexicalRichText => {

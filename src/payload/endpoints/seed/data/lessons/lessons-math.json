@@ -37,5 +37,18 @@
     "difficulty": "medium",
     "estimatedTime": 45,
     "isEnabled": true
+  },
+  {
+    "title": "Корень n-й степени: определение и свойства",
+    "slug": "nth-root-basics",
+    "subjectSlug": "math",
+    "topicSlug": "algebra",
+    "grade": "10",
+    "order": 5,
+    "summary": "Арифметический корень n-й степени, условия существования, основные свойства и действия с корнями.",
+    "tags": ["ЕГЭ", "математика", "алгебра", "корни", "n-й степени"],
+    "difficulty": "medium",
+    "estimatedTime": 40,
+    "isEnabled": true
   }
 ]
