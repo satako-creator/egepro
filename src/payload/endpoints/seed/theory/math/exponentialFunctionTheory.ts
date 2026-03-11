@@ -53,7 +53,7 @@ export const exponentialFunctionTheory = (): LexicalRichText =>
 
     // 4. Схема решения показательных уравнений
     createHeading('h2', 'Схема решения показательных уравнений'),
-    createHeading('h3', 'Уравнения вида a^{f(x)} = a^{g(x)}'),
+    createEquationBlockNode('a^{f(x)} = a^{g(x)}', 'Уравнения вида'),
     createParagraph(
       'Шаги решения: приводим к одному основанию, затем приравниваем показатели и решаем алгебраическое уравнение.',
     ),
@@ -61,11 +61,15 @@ export const exponentialFunctionTheory = (): LexicalRichText =>
       'a^{f(x)} = a^{g(x)} \\Rightarrow f(x) = g(x)',
       'Переход от показательного уравнения к алгебраическому',
     ),
-
+    createParagraph('Уравнения вида'),
     createHeading('h3', 'Сведение к квадратному уравнению'),
-    createParagraph(
-      'Уравнения вида A \\cdot a^{2x} + B \\cdot a^x + C = 0 решаются заменой t = a^x, t > 0.',
-    ),
+
+    createParagraph('Уравнения вида  решаются заменой '),
+
+    createEquationBlockNode('A \\cdot a^{2x} + B \\cdot a^x + C = 0'),
+
+    createEquationBlockNode('t = a^x, t > 0.'),
+
     createEquationBlockNode(
       'A \\cdot a^{2x} + B \\cdot a^x + C = 0',
       'Общий вид «квадратного» показательного уравнения',
@@ -77,7 +81,8 @@ export const exponentialFunctionTheory = (): LexicalRichText =>
 
     // 5. Схема решения показательных неравенств
     createHeading('h2', 'Схема решения показательных неравенств'),
-    createHeading('h3', 'Неравенства вида a^{f(x)} > a^{g(x)}'),
+    createEquationBlockNode('a^{f(x)} > a^{g(x)}', 'Неравенства вида'),
+
     createParagraph(
       'Сравнивая степени, важно учитывать, возрастает или убывает показательная функция.',
     ),

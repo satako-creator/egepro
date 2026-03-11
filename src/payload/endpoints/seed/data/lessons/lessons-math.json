@@ -16,13 +16,26 @@
     "title": "Логарифмы: определение и свойства",
     "slug": "logarithms-definition-properties",
     "subjectSlug": "math",
-    "topicSlug": "logarithms",
+    "topicSlug": "algebra",
     "grade": "11",
     "order": 6,
     "summary": "Определение логарифма, свойства, переход к новому основанию и схема решения логарифмических уравнений и неравенств.",
     "tags": ["логарифмы", "ЕГЭ"],
     "difficulty": "medium",
     "estimatedTime": 30,
+    "isEnabled": true
+  },
+  {
+    "title": "Обобщение понятия степени",
+    "slug": "power-generalization",
+    "subjectSlug": "math",
+    "topicSlug": "algebra",
+    "grade": "10",
+    "order": 4,
+    "summary": "Степень с целым и рациональным показателем степени. Общие свойства возведения в степень.",
+    "tags": ["ЕГЭ", "математика", "алгебра", "степень", "рациональный показатель"],
+    "difficulty": "medium",
+    "estimatedTime": 45,
     "isEnabled": true
   }
 ]

@@ -1,12 +1,14 @@
 import type { LexicalRichText } from '../helpers/helpers'
 import { exponentialFunctionTheory } from './math/exponentialFunctionTheory'
 import { logarithmsTheory } from './math/logarithmsTheory'
+import { powerGeneralizationTheory } from './math/powerGeneralizationTheory'
 
 type LessonKey = string
 
 const MATH_THEORY: Record<LessonKey, () => LexicalRichText> = {
   'exponential-function-basics': exponentialFunctionTheory,
   'logarithms-definition-properties': logarithmsTheory,
+  'power-generalization': powerGeneralizationTheory,
 }
 
 export const getLessonTheory = (slug: string): LexicalRichText => {
