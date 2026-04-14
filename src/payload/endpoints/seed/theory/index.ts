@@ -8,7 +8,6 @@ import { exponentialFunctionTheory } from './math/exponentialFunctionTheory'
 import { logarithmsTheory } from './math/logarithmsTheory'
 import { nthRootBasicsTheory } from './math/nthRootBasicsTheory'
 import { powerGeneralizationTheory } from './math/powerGeneralizationTheory'
-import { createHeading, createParagraph, createRichText } from '../helpers/helpers'
 
 type LessonKey = string
 
