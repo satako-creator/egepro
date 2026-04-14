@@ -67,12 +67,16 @@ function Tree({ item }: { item: NavItem }) {
             <SidebarMenuButton
               asChild
               isActive={isActive}
-              // Увеличили py-2 → py-2.5 для комфорта с крупным текстом
-              className="h-auto py-2.5 px-4"
+              className={`h-auto py-2.5 px-4 transition-colors ${
+                isActive
+                  ? 'bg-primary/10 text-primary font-semibold' // Стили для активного состояния
+                  : 'text-muted-foreground hover:text-foreground' // Стили для обычного
+              }`}
             >
               <Link href={item.url || '#'} className="flex items-start gap-2">
-                {Icon && <Icon className="shrink-0 mt-0.5" size={18} />}
-                {/* text-xs → text-base (16px), leading-snug → leading-relaxed для читаемости */}
+                {Icon && (
+                  <Icon className={`shrink-0 mt-0.5 ${isActive ? 'text-primary' : ''}`} size={18} />
+                )}
                 <span className="flex-1 line-clamp-2 text-base leading-relaxed">{item.title}</span>
               </Link>
             </SidebarMenuButton>
@@ -90,7 +94,7 @@ function Tree({ item }: { item: NavItem }) {
     <SidebarMenuItem>
       <Collapsible
         className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
-        defaultOpen={pathname.includes(String(item.id))}
+        defaultOpen={true}
       >
         <CollapsibleTrigger asChild>
           <SidebarMenuButton className="py-2.5 pr-2" asChild>
