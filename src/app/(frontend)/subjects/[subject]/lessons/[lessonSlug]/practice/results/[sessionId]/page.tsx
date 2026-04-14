@@ -8,20 +8,23 @@ import { applyPracticeRewards } from '@/entities/practice/api/applyPracticeRewar
 
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { Subject } from '@/payload-types'
+import { getSubjectById } from '@/entities/subject/api/getSubjectById'
 
 type PageProps = {
   params: Promise<{
-    subject: Subject
+    subject: string
     lessonSlug: string
     sessionId: string
   }>
 }
 
 export default async function PracticeResultsPage({ params }: PageProps) {
-  const { subject, lessonSlug, sessionId } = await params
+  const { subject: subgectId, lessonSlug, sessionId } = await params
+  console.log('subjectId ==> ', subgectId)
 
   const payload = await getPayload({ config: configPromise })
+
+  const subject = await getSubjectById(subgectId)
 
   let session
   try {
@@ -102,7 +105,7 @@ export default async function PracticeResultsPage({ params }: PageProps) {
     <div className="min-h-screen bg-muted/30">
       <div className="container py-8 space-y-6">
         <header className="space-y-2">
-          <p className="text-xs text-muted-foreground uppercase tracking-wide">{subject.name}</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">{subject?.name}</p>
           <h1 className="text-2xl font-bold">Результаты практики</h1>
           <p className="text-sm text-muted-foreground">
             Урок: <span className="font-medium">{lessonTitle}</span>
@@ -199,13 +202,13 @@ export default async function PracticeResultsPage({ params }: PageProps) {
 
         <section className="flex gap-3">
           <Link
-            href={`/subjects/${subject}/lessons/${lessonSlug}/practice`}
+            href={`/subjects/${subject?.slug}/lessons/${lessonSlug}/practice`}
             className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             Пройти ещё раз
           </Link>
           <Link
-            href={`/subjects/${subject}/lessons/${lessonSlug}`}
+            href={`/subjects/${subject?.slug}/lessons/${lessonSlug}`}
             className="inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted"
           >
             Вернуться к теории
