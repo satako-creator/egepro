@@ -1,4 +1,3 @@
-// src/widgets/PracticePanel/ui/Sidebar.tsx
 import { PracticeQuestion } from '@/payload-types'
 import { extractPlainTextFromLexical } from '../_domain/richText'
 import { Progress } from '@/shared/ui/progress'

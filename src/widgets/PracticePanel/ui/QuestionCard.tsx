@@ -101,7 +101,7 @@ export const QuestionCard = ({
         <button
           onClick={onPrevious}
           disabled={isFirstQuestion}
-          className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Назад
         </button>
@@ -110,7 +110,7 @@ export const QuestionCard = ({
           {!isExplanationVisible && (
             <button
               onClick={onShowExplanation}
-              className="px-4 py-2 bg-muted text-muted-foreground rounded-lg"
+              className="px-4 py-2 bg-muted text-muted-foreground rounded-lg cursor-help"
             >
               Пояснение
             </button>
@@ -119,7 +119,7 @@ export const QuestionCard = ({
           <button
             onClick={isLastQuestion && isCurrentQuestionAnswered ? onComplete : onNext}
             disabled={disableNext}
-            className={`${!disableNext ? '' : 'text-muted-foreground cursor-not-allowed'}`}
+            className={`cursor-pointer ${!disableNext ? '' : 'text-muted-foreground cursor-not-allowed'}`}
           >
             {isLastQuestion && isCurrentQuestionAnswered
               ? isCompleting

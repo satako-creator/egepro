@@ -1,4 +1,9 @@
-import type { LexicalRichText } from '../helpers/helpers'
+import {
+  createHeading,
+  createParagraph,
+  createRichText,
+  type LexicalRichText,
+} from '../helpers/helpers'
 import { exponentialFunctionTheory } from './math/exponentialFunctionTheory'
 import { logarithmsTheory } from './math/logarithmsTheory'
 import { nthRootBasicsTheory } from './math/nthRootBasicsTheory'

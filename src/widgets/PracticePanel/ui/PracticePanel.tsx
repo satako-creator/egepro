@@ -6,6 +6,7 @@ import { PracticeSidebar } from './Sidebar'
 import { QuestionCard } from './QuestionCard'
 import { savePracticeSession } from '@/entities/practice/api/savePracticeSession'
 import { usePracticeFlow } from '../model/usePracticeSession'
+import { useState } from 'react'
 
 interface PracticePanelProps {
   lesson: Lesson
@@ -15,6 +16,7 @@ interface PracticePanelProps {
 
 export const PracticePanel = ({ lesson, questions, userId }: PracticePanelProps) => {
   const router = useRouter()
+  const [isCompleting, setIsCompleting] = useState<boolean>(false)
 
   const { state, actions } = usePracticeFlow({ questions })
 
@@ -22,6 +24,7 @@ export const PracticePanel = ({ lesson, questions, userId }: PracticePanelProps)
     questions.length > 0 ? (state.answeredQuestions.size / questions.length) * 100 : 0
 
   const handleComplete = async () => {
+    setIsCompleting(true)
     const snapshot = actions.finalizeState()
 
     const sessionData = {
@@ -43,6 +46,7 @@ export const PracticePanel = ({ lesson, questions, userId }: PracticePanelProps)
       )
     } catch (error) {
       console.error('Ошибка при сохранении результатов:', error)
+      setIsCompleting(false)
     }
   }
 
@@ -73,7 +77,7 @@ export const PracticePanel = ({ lesson, questions, userId }: PracticePanelProps)
             onComplete={handleComplete}
             isLastQuestion={state.currentIndex === questions.length - 1}
             isFirstQuestion={state.currentIndex === 0}
-            isCompleting={false} // если нужно — можно добавить отдельный useState
+            isCompleting={isCompleting} // если нужно — можно добавить отдельный useState
           />
         )}
       </div>
