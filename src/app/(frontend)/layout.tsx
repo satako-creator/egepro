@@ -27,11 +27,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
+          {/* <AdminBar
             adminBarProps={{
               preview: isEnabled,
             }}
-          />
+          /> */}
           {/* <Header /> */}
           <main className="flex-1 flex flex-col">{children}</main>
           {/* <Footer /> */}
