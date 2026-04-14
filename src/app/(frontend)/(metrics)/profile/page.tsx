@@ -31,13 +31,15 @@ export default async function ProfilePage() {
       <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Профиль</h1>
-          <p className="text-sm text-muted-foreground">{user.name ?? user.email}</p>
+          <p className="text-xl text-muted-foreground">
+            Имя пользователя: <span className="font-bold">{user.name ?? user.email}</span>
+          </p>
         </div>
 
         {/* <UserProgressBadge /> */}
       </header>
 
-      <section className="grid gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+      <section className="space-y-10">
         <div className="space-y-3">
           <h2 className="text-sm font-semibold text-muted-foreground">Прогресс по XP</h2>
           <div className="rounded-lg border border-border bg-card p-4">
